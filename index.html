@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    .container{
+      width: 30%;
+      margin: 3em auto;
+      padding: 1em 4em 4em;
+      background-color: rgb(251, 223, 12);
+      box-shadow: 0 0 4em 0;
+    }
+
+    @media (max-width: 1215px) {
+      .container{
+        width: 40%;
+        padding: 2em;
+      }
+      
+    }
+    @media (max-width: 955px) {
+      .container{
+        width: 50%;
+        /* padding: 2em; */
+      }
+    }
+    @media (max-width: 767px) {
+      .container{
+        width: 60%;
+        /* padding: 2em; */
+      }
+    }
+    @media (max-width: 646px) {
+      .container{
+        width: 70%;
+        /* padding: 2em; */
+      }
+    }
+    @media (max-width: 320px) {
+      .container{
+        width: 90%;
+        padding: 10px;
+      }
+    }
+
+
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>CHRISTAL COMM.</h2>
+    <label for="MTN">RechargeCard</label>
+    <select name="MTN" id="">
+      <option value="">MTN</option>
+    </select>
+    <label for="amount">Amount</label>
+    <select name="" id="hundred">
+      <option value="1" id="">100</option>
+    </select>
+    <button id="gen" onclick="generate()">Generate Vouher</button>
+    <h5>Copy your pin here 👇 <h2 id="display"></h2></h5>
+    <input type="text" id="paste" placeholder="Paste your pin">
+    <button onclick="load()">Load Airtime</button>
+  
+  </div>
+</body>
+</html>
+<script>
+  let display = document.getElementById('display')
+  let hundredNaira = document.getElementById('hundred')
+  let randomNumber = Math.floor(Math.random() * 1000000000000000)
+  let pasteCard = document.getElementById('paste')
+ 
+  function generate() {
+    if (gen) {
+      display.innerHTML =  randomNumber
+    }
+  }
+  function load() { 
+    switch (pasteCard.value) {
+      case `*555*${display.innerHTML}#`:
+        alert('Recharge successful')
+        break;
+     
+      default:
+        alert('Invalid card')
+        break;
+    }
+  }
+</script>
