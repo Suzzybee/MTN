@@ -4,9 +4,84 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+    <style>
+      * {
+          padding: 5;
+          margin: 3;
+      }
+      main {
+          width: 550px;
+          height: 530px;
+          margin: auto;
+          color: white;
+          background-color: rgb(68, 67, 67);
+          justify-content: center;
+          text-align: center;
+          padding: 20px 0;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.486);
+      }
+      div {
+          margin: 0 auto;
+      }
+      label {
+          font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      }
+      select {
+          width: 100px;
+          height: 25px;
+          background-color: whitesmoke;
+          border: 0;
+          border-radius: 3px;
+      }
+      button {
+          border: 0;
+          margin-top: 20px;
+          padding: 10px;
+          border-radius: 8px;
+          background-color: rgba(0, 0, 255, 0.151);
+          color: white;
+          font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+          font-size: 15px;
+      }
+      input {
+          width: 250px;
+          height: 30px;
+          border-radius: 5px;
+          border: 0;
+      }
+      .MTN {
+          background-image: url(./mtn.jpg);
+          background-size: cover;
+          background-repeat: no-repeat;
+      }
 
-  <style>
-    .container{
+      .Airtel {
+          background-image: url(./airtel.jpg);
+          background-size: cover;
+          background-repeat: no-repeat;
+      }
+
+      .NineMobile{
+          background-image: url(./9mobile.jpg);
+          background-size: cover;
+          background-repeat: no-repeat;
+      }
+
+      .Glo {
+          background-image: url(./glo.jpg);
+          background-size: cover;
+          background-repeat: no-repeat;
+      }
+
+      #balances {
+          font-size: 15px;
+          font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+          z-index: 1;
+          margin-top: -10px;
+      }
+
+    main{
       width: 30%;
       margin: 3em auto;
       padding: 1em 4em 4em;
@@ -15,32 +90,29 @@
     }
 
     @media (max-width: 1215px) {
-      .container{
+      main{
         width: 40%;
         padding: 2em;
       }
       
     }
     @media (max-width: 955px) {
-      .container{
+      main{
         width: 50%;
-        /* padding: 2em; */
       }
     }
     @media (max-width: 767px) {
-      .container{
+      main{
         width: 60%;
-        /* padding: 2em; */
       }
     }
     @media (max-width: 646px) {
-      .container{
+      main{
         width: 70%;
-        /* padding: 2em; */
       }
     }
     @media (max-width: 320px) {
-      .container{
+      main{
         width: 90%;
         padding: 10px;
       }
@@ -51,44 +123,105 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>CHRISTAL COMM.</h2>
-    <label for="MTN">RechargeCard</label>
-    <select name="MTN" id="">
-      <option value="">MTN</option>
-    </select>
-    <label for="amount">Amount</label>
-    <select name="" id="hundred">
-      <option value="1" id="">100</option>
-    </select>
-    <button id="gen" onclick="generate()">Generate Vouher</button>
-    <h5>Copy your pin here 👇 <h2 id="display"></h2></h5>
-    <input type="text" id="paste" placeholder="*555* pin#">
-    <button onclick="load()">Load Airtime</button>
-  
-  </div>
+  <main id="main">
+      <h1> Random Voucher Generator</h1>
+      <div>
+          <label for="">Network Provider</label>
+          <select name="" id="network" onchange="ChangeBackgroundColor()">
+              <option value="">select</option>
+              <option value="MTN" class="MTN">MTN</option>
+              <option value="Airtel" class="Airtel">Airtel</option>
+              <option value="NineMobile" class="NineMobile">9Mobile</option>
+              <option value="Glo" class="Glo">Glo</option>
+          </select>
+      </div>
+      <br>
+      <div>
+          <label for="">Amount</label>
+          <select name="" id="amount">                
+              <option value="">select</option>
+              <option value="100">100</option>
+              <option value="200">200</option>
+              <option value="500">500</option>
+              <option value="1000">1000</option>
+          </select>
+          <br>
+          <button onclick="genPin()">Generate Pin</button>
+      </div>
+      <br>
+      <h1 id="dispPin"></h1>
+      <p>Load airtime using *311* the generated code #</p>
+
+      <h2>Load Airtime</h2>
+      <input type="text" id="LoadAirtime">
+      <br>
+      <button onclick="LoadAirtimeCard()">LoadAirtime</button>
+      <h1 id="dev"></h1>
+
+      <p id="balances"></p>
+  </main>
 </body>
 </html>
+
 <script>
-  let display = document.getElementById('display')
-  let hundredNaira = document.getElementById('hundred')
-  let randomNumber = Math.floor(Math.random() * 1000000000000000)
-  let pasteCard = document.getElementById('paste')
- 
-  function generate() {
-    if (gen) {
-      display.innerHTML =  randomNumber
-    }
+  let amount = document.getElementById("amount");
+  let network = document.getElementById("network");
+  let LoadAirtime = document.getElementById("LoadAirtime");
+  let balances = document.getElementById("balances");
+  let balance = {
+          MTN: 0,
+          Airtel: 0,
+          NineMobile: 0,
+          Glo: 0
+      };
+
+
+  function genPin(){
+      let pin = Math.floor(Math.random()* 10000000000000);
+      dispPin.innerHTML = pin
+      
+      alert(`You have succefully generated ${network.value} of ${amount.value}`)
   }
-  function load() { 
-    switch (pasteCard.value) {
-      case `*555*${display.innerHTML}#`:
-        alert('Recharge successful')
-        break;
-     
-      default:
-        alert('Invalid card')
-        break;
-    }
+
+  function LoadAirtimeCard(){
+      let pin = document.getElementById("dispPin").innerHTML
+      console.log(pin)
+      if(
+          !LoadAirtime.value.startsWith("*311*") || 
+          !LoadAirtime.value.endsWith("#") || 
+          !LoadAirtime.value.includes(pin)){
+          
+              alert("Invalid Code") 
+
+          LoadAirtime.value = ""     
+          
+      }
+      else{
+          alert(`You have succefully recharged ${network.value} of ${amount.value}`)
+          LoadAirtime.value = ""
+          dispPin.innerHTML = ""
+
+          
+          balance[network.value] += Number(amount.value);
+              updateBalanceText();
+      }
   }
-</script>
+
+  function updateBalanceText() {
+          
+          balances.innerHTML = `Balance: 
+              MTN: ${balance.MTN},
+              Airtel: ${balance.Airtel},
+              9Mobile: ${balance.NineMobile},
+              Glo: ${balance.Glo}`;
+      }
+
+  function ChangeBackgroundColor() {
+          let selectedNetwork = document.getElementById("network").value;
+          let mainElement = document.getElementById("main");
+
+          mainElement.classList.remove("MTN", "Airtel", "NineMobile", "Glo");
+
+          mainElement.classList.add(selectedNetwork);
+      }
+</script> 
